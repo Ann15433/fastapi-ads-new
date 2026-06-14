@@ -6,13 +6,11 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Настройка базы данных (SQLite для простоты)
 SQLALCHEMY_DATABASE_URL = "sqlite:///./ads.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)  # Исправлено: autoflush
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)  
 Base = declarative_base()
 
-# Модель базы данных
 class AdvertisementDB(Base):
     __tablename__ = "advertisements"
 
@@ -23,9 +21,8 @@ class AdvertisementDB(Base):
     author = Column(String, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-# Pydantic модели (адаптированы под Pydantic 2)
 class AdvertisementBase(BaseModel):
-    model_config = ConfigDict(from_attributes=True)  # Замена Config
+    model_config = ConfigDict(from_attributes=True) 
     title: str
     description: str
     price: float
